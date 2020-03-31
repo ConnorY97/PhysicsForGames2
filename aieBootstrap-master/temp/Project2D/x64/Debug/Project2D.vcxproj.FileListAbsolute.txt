@@ -1,0 +1,2 @@
+C:\Users\c_you\Documents\AIE\Yr 2\Term 1\PhysicsForGames\aieBootstrap-master\temp\Project2D\x64\Debug\Project2D.exe
+C:\Users\c_you\Documents\AIE\Yr 2\Term 1\PhysicsForGames\aieBootstrap-master\temp\Project2D\x64\Debug\Project2D.pdb
