@@ -9,11 +9,6 @@
 #include "circle.h"
 #include "aligned_bounding_box.h"
 
-//Application2D::Application2D() 
-//{
-//
-//}
-
 Application2D::~Application2D() 
 {
 	delete m_physicsScene;
@@ -38,26 +33,29 @@ bool Application2D::startup()
 	
 	m_timer = 0;
 
-	//m_physicsScene->addActor(new circle(glm::vec2(0.0f), glm::vec2(0.0f), 1.0f, 5.0f,
-	//							glm::vec4(0.0f, 1.0f, 0.0f, 1.0f)));
+	line* base = new line(glm::vec2(0.0f, 1.0f), -50.0f); 
+	line* lhs = new line(glm::vec2(1.0f, 0.0f), -85.0f); 
+	line* rhs = new line(glm::vec2(-1.0f, 0.0f), -85.0f); 
+	line* lhd = new line(glm::vec2(1.0f), -60.0f); 
+	line* rhd = new line(glm::vec2(-1.0f, 1.0f), -60.0f);
 
-	//circle* m_c1 = new circle(glm::vec2(0.0f), glm::vec2(0.0f), 1.0f, 5.0f, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
-	//circle* m_c2 = new circle(glm::vec2(16.0f), glm::vec2(0.0f), 1.0f, 5.0f, glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
-
-	//aligned_bounding_box m_b1 = aligned_bounding_box(glm::vec2(5.0f), glm::vec2(1.0f));
-
-	line* base = new line(glm::vec2(0, 1.0f), -50.0f); 
 	m_physicsScene->addActor(base);
-	circle* c1 = new circle(glm::vec2(0.0f), glm::vec2(0.0f), 1.0f, 5.0f, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
-	circle* c2 = new circle(glm::vec2(10.0f, -5.0f), glm::vec2(0.0f), 1.0f, 5.0f, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
-		//glm::vec2(10.0f, 10.0f), glm::vec2(0.0f), 1.0f, 5.0f, glm::vec3(1.0f, 0.0f, 0.0f)
+	m_physicsScene->addActor(lhs);
+	m_physicsScene->addActor(rhs);
+	m_physicsScene->addActor(lhd);
+	m_physicsScene->addActor(rhd);
+
+	circle* c1 = new circle(glm::vec2(-70.0f, -30.0f), glm::vec2(0.0f), 1.0f, 5.0f, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+	circle* c2 = new circle(glm::vec2(0.0f, -10.0f), glm::vec2(0.0f), 1.0f, 5.0f, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+
+
 	m_physicsScene->addActor(c1);
 	m_physicsScene->addActor(c2);
 
-	aligned_bounding_box* b1 = new aligned_bounding_box(glm::vec2(0.0f, -10.0f), glm::vec2(10.0f));
+	aligned_bounding_box* b1 = new aligned_bounding_box(glm::vec2(-70.0f, -10.0f), glm::vec2(10.0f));
+	aligned_bounding_box* b2 = new aligned_bounding_box(glm::vec2(0.0f, -25.0f), glm::vec2(10.0f));
 	m_physicsScene->addActor(b1); 
-	//m_physicsScene->addActor(&m_b1);
-
+	m_physicsScene->addActor(b2); 
 	return true;
 }
 
@@ -68,11 +66,6 @@ void Application2D::shutdown()
 	delete m_texture;
 	delete m_shipTexture;
 	delete m_2dRenderer;	
-	
-	/*delete m_c1;
-	m_c1 = nullptr;
-	delete m_c2;
-	m_c2 = nullptr;*/
 }
 
 void Application2D::update(float deltaTime) {
@@ -87,9 +80,6 @@ void Application2D::update(float deltaTime) {
 	m_physicsScene->update(deltaTime);
 	m_physicsScene->updateGizmos();
 
-	//m_c1->makeGizmo();
-
-	//m_c2->makeGizmo(); 
 	// Update the camera position using the arrow keys
 	float camPosX;
 	float camPosY;
@@ -111,8 +101,10 @@ void Application2D::update(float deltaTime) {
 
 	if (input->isKeyDown(aie::INPUT_KEY_SPACE))
 	{
-		m_physicsScene->setGravity(glm::vec2(0.0f, -2.0f)); 
+		m_physicsScene->setGravity(glm::vec2(0.0f, -50.0f)); 
 	}
+
+#pragma region stuff
 
 	/*
 	static const glm::vec4 colours[] =
@@ -135,29 +127,31 @@ void Application2D::update(float deltaTime) {
 
 	//Draw the grid blocks
 	glm::vec2 pos;
-	for (int y = 0; y < rows; y++) 
+	for (int y = 0; y < rows; y++)
 	{
 		pos = glm::vec2(startPos.x, startPos.y - (y * ((boxExtents.y * 2) + hSpace)));
-		for (int x = 0; x < columns; x++) 
+		for (int x = 0; x < columns; x++)
 		{
 			aie::Gizmos::add2DAABBFilled(pos, boxExtents, colours[y]);
 			pos.x += (boxExtents.x * 2) + vSpace;
 		}
 	}
-	
-	//Draw the ball 
+
+	//Draw the ball
 	aie::Gizmos::add2DCircle(glm::vec2(0, -35), 3, 12, glm::vec4(1, 1, 0, 1));
-	
+
 	//Draw the player's paddle
 	aie::Gizmos::add2DAABBFilled(	glm::vec2(0, -40), glm::vec2(12, 2),
 									glm::vec4(1, 0, 1, 1));
 
 	*/
 
-	
 
-	
-	
+
+
+
+#pragma endregion
+
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
 		quit();
@@ -170,9 +164,6 @@ void Application2D::draw() {
 
 	// begin drawing sprites
 	m_2dRenderer->begin();
-
-	/*aligned_bounding_box a = aligned_bounding_box(glm::vec2(0.0f), glm::vec2(5.0f)); 
-	a.makeGizmo();*/ 
 	
 	static float aspectRatio = 16.0f / 9.0f;
 	aie::Gizmos::draw2D(glm::ortho<float>(-100, 100, -100 / aspectRatio, 100 / aspectRatio, -1.0f, 1.0f)); 

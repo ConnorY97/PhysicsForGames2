@@ -74,10 +74,30 @@ void PhysicsScene::update(float a_deltaTime)
 				auto result = collisionFuncPtr(object1, object2);
 				if (glm::length(result) > 0.001)
 				{
-					int value = 1; 
+					//Dirty force stop remove asap 
+					RigidBody* r1 = dynamic_cast<RigidBody*>(object1); 
+					RigidBody* r2 = dynamic_cast<RigidBody*>(object2); 
+
+					if (r1) r1->setVelocity(glm::vec2(0.0f));
+					if (r2) r2->setVelocity(glm::vec2(0.0f));
+
 					//Resolve collision
-						//Seperate 
-						//Apple reaction 
+					//Seperate 
+					if (r1 && r2) //Even split
+					{
+						r1->setPosition(r1->getPosition() + 0.5f * result); 
+						r2->setPosition(r2->getPosition() - 0.5f * result); 
+					}
+					else if (r1)
+					{
+						r1->setPosition(r1->getPosition() + result);
+
+					}
+					else if (r2)
+					{
+						r2->setPosition(r2->getPosition() + result);
+					}
+
 				}
 			}
 		}

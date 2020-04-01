@@ -23,13 +23,12 @@ glm::vec2 collision_manager::circle_vs_circle(
 		return glm::vec2(0.0f); 
 }
 //---------------------------------------------------------------------
-glm::vec2 collision_manager::aabb_vs_aabb(const PhysicsObject* a_aabb_A,
-	const PhysicsObject* a_aabb_B)
+glm::vec2 collision_manager::aabb_vs_aabb(const PhysicsObject* a_aabb_A, const PhysicsObject* a_aabb_B)
 {
 	const aligned_bounding_box* a1 = dynamic_cast<const aligned_bounding_box*>(a_aabb_A);
 	const aligned_bounding_box* a2 = dynamic_cast<const aligned_bounding_box*>(a_aabb_B);
 
-	const float maxOverlap = 10000000000.0f;
+	const float maxOverlap = 10000000.0f;
 	float overlap = maxOverlap; //<- numeric float limit would be nice 
 
 	glm::vec2 overlapVector = glm::vec2(0.0f);
@@ -38,22 +37,23 @@ glm::vec2 collision_manager::aabb_vs_aabb(const PhysicsObject* a_aabb_A,
 	//Checking x axis----------------------------------------------------
 	if (a1->get_max().x > a2->get_min().x)
 	{
-		float localOverlap = a1->get_max().x - a2->get_max().x;
+		float localOverlap = abs(a1->get_max().x - a2->get_min().x);
 		if (localOverlap < overlap)
 		{
 			overlap = localOverlap;
-			overlapVector = glm::vec2(overlap, 0.0f);
+			overlapVector = glm::vec2(-overlap, 0.0f);
 		}
 	}
 	else
 		return glm::vec2(0.0f);
 	if (a1->get_min().x < a2->get_max().x)
 	{
-		float localOverlap = a1->get_min().x - a2->get_min().x;
+		float localOverlap = abs(a1->get_min().x - a2->get_max().x);
 		if (localOverlap < overlap)
 		{
 			overlap = localOverlap;
-			overlapVector = glm::vec2(-overlap, 0.0f); 
+			//Other direction along x
+			overlapVector = glm::vec2(overlap, 0.0f); 
 		}
 	}
 	else
@@ -62,18 +62,7 @@ glm::vec2 collision_manager::aabb_vs_aabb(const PhysicsObject* a_aabb_A,
 	//Checking y axis-----------------------------------------------------
 	if (a1->get_max().y > a2->get_min().y)
 	{
-		float localOverlap = a1->get_max().y - a2->get_max().y;
-		if (localOverlap < overlap)
-		{
-			overlap = localOverlap;
-			overlapVector = glm::vec2(0.0f, overlap);
-		}
-	}
-	else
-		return glm::vec2(0.0f);
-	if (a1->get_min().y < a2->get_max().y)
-	{
-		float localOverlap = a1->get_min().y - a2->get_min().y;
+		float localOverlap = abs(a1->get_max().y - a2->get_min().y);
 		if (localOverlap < overlap)
 		{
 			overlap = localOverlap;
@@ -82,6 +71,19 @@ glm::vec2 collision_manager::aabb_vs_aabb(const PhysicsObject* a_aabb_A,
 	}
 	else
 		return glm::vec2(0.0f);
+	if (a1->get_min().y < a2->get_max().y)
+	{
+		float localOverlap = abs(a1->get_min().y - a2->get_max().y);
+		if (localOverlap < overlap)
+		{
+			overlap = localOverlap;
+			overlapVector = glm::vec2(0.0f, overlap);
+		}
+	}
+	else
+		return glm::vec2(0.0f);
+
+	return overlapVector; 
 }
 //---------------------------------------------------------------------
 glm::vec2 collision_manager::line_vs_line(const PhysicsObject* a_line_A,
@@ -90,8 +92,7 @@ glm::vec2 collision_manager::line_vs_line(const PhysicsObject* a_line_A,
 	return glm::vec2(0.0f);
 }
 //---------------------------------------------------------------------
-glm::vec2 collision_manager::aabb_vs_circle(const PhysicsObject* a_aabb,
-	const PhysicsObject* a_circle)
+glm::vec2 collision_manager::aabb_vs_circle(const PhysicsObject* a_aabb, const PhysicsObject* a_circle)
 {
 	const aligned_bounding_box* a = dynamic_cast<const aligned_bounding_box*>(a_aabb);
 	const circle* c = dynamic_cast<const circle*>(a_circle); 
@@ -104,14 +105,13 @@ glm::vec2 collision_manager::aabb_vs_circle(const PhysicsObject* a_aabb,
 
 	if (overlap > 0.0f)
 	{
-		return glm::normalize(displacement) * overlap;
+		return -glm::normalize(displacement) * overlap;
 	}
 	else
 		return glm::vec2(0.0f); 
 }
 
-glm::vec2 collision_manager::circle_vs_aabb(const PhysicsObject* a_circle,
-	const PhysicsObject* a_aabb)
+glm::vec2 collision_manager::circle_vs_aabb(const PhysicsObject* a_circle, const PhysicsObject* a_aabb)
 {
 	return aabb_vs_circle(a_aabb, a_circle);
 }
@@ -129,7 +129,7 @@ glm::vec2 collision_manager::circle_vs_line(const PhysicsObject* a_circle,
 	float distance = positionDotNormal - (l->get_distance() + c->GetRadious());
 
 	if (distance < 0.0f)
-		return l->get_normal() * distance;
+		return -(l->get_normal()) * distance;
 	else
 		return glm::vec2(0.0f);
 }

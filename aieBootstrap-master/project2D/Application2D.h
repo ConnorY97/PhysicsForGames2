@@ -7,7 +7,7 @@
 //Forward declaration 
 	//Promise that there is a definition in the of these classes down the line 
 class PhysicsScene;
-class circle; 
+class aligned_bounding_box; 
 
 class Application2D : public aie::Application 
 {
@@ -29,8 +29,6 @@ protected:
 	aie::Texture*			m_shipTexture;
 	aie::Font*				m_font;
 
-	circle* m_c1;
-	circle* m_c2;
 
 	PhysicsScene*			m_physicsScene; 
 
