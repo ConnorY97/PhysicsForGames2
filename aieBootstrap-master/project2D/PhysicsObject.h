@@ -29,6 +29,9 @@ public:
 
 	ShapeType getShape() const { return m_shapeID; }
 
+	void setColour(glm::vec4 a_colour) { m_colour = a_colour; }
+	glm::vec4 m_colour = glm::vec4(1.0f); 
+
 protected:
 	ShapeType m_shapeID; 
 };

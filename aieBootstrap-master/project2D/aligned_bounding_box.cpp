@@ -57,5 +57,5 @@ const glm::vec2 aligned_bounding_box::get_max() const
 
 void aligned_bounding_box::makeGizmo()
 {
-	aie::Gizmos::add2DAABB(m_position, (m_extents * 0.5f), glm::vec4(0.0f, 1.0f, 1.0f, 1.0f));
+	aie::Gizmos::add2DAABBFilled(m_position, (m_extents * 0.5f), m_colour);
 }

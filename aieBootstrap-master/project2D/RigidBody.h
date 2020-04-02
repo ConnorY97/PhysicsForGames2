@@ -19,6 +19,8 @@ public:
 	//Applying force and result of a colision 
 	void applyForceToActor(RigidBody* a_actor2, glm::vec2 a_force);
 
+	void resolveCollision(RigidBody* a_actor, glm::vec2 a_collisionNormal);
+
 	//Probably remove this later 
 	virtual bool checkCollision(PhysicsObject* a_pOther) = 0;
 

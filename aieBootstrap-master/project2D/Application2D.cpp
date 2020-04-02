@@ -32,30 +32,36 @@ bool Application2D::startup()
 	m_physicsScene->setGravity(glm::vec2(0.0f));
 	
 	m_timer = 0;
-
+	line* top = new line(glm::vec2(0.0f, -1.0f), -50.0f);
 	line* base = new line(glm::vec2(0.0f, 1.0f), -50.0f); 
 	line* lhs = new line(glm::vec2(1.0f, 0.0f), -85.0f); 
 	line* rhs = new line(glm::vec2(-1.0f, 0.0f), -85.0f); 
-	line* lhd = new line(glm::vec2(1.0f), -60.0f); 
-	line* rhd = new line(glm::vec2(-1.0f, 1.0f), -60.0f);
-
+	line* lhd = new line(glm::vec2(1.0f), -75.0f); 
+	line* rhd = new line(glm::vec2(-1.0f, 1.0f), -75.0f);
+	
+	m_physicsScene->addActor(top); 
 	m_physicsScene->addActor(base);
 	m_physicsScene->addActor(lhs);
 	m_physicsScene->addActor(rhs);
 	m_physicsScene->addActor(lhd);
 	m_physicsScene->addActor(rhd);
 
-	circle* c1 = new circle(glm::vec2(-70.0f, -30.0f), glm::vec2(0.0f), 1.0f, 5.0f, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
-	circle* c2 = new circle(glm::vec2(0.0f, -10.0f), glm::vec2(0.0f), 1.0f, 5.0f, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
-
+	circle* c1 = new circle(glm::vec2(0.0f, -30.0f), glm::vec2(0.0f), 1.0f, 5.0f, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+	circle* c2 = new circle(glm::vec2(0.0f, -10.0f), glm::vec2(0.0f), 1.0f, 5.0f, glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+	circle* c3 = new circle(glm::vec2(20.0f, 10.0f), glm::vec2(0.0f), 1.0f, 5.0f, glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
 
 	m_physicsScene->addActor(c1);
 	m_physicsScene->addActor(c2);
+	m_physicsScene->addActor(c3);
 
 	aligned_bounding_box* b1 = new aligned_bounding_box(glm::vec2(-70.0f, -10.0f), glm::vec2(10.0f));
-	aligned_bounding_box* b2 = new aligned_bounding_box(glm::vec2(0.0f, -25.0f), glm::vec2(10.0f));
+	aligned_bounding_box* b2 = new aligned_bounding_box(glm::vec2(-50.0f, -25.0f), glm::vec2(10.0f));
+
 	m_physicsScene->addActor(b1); 
 	m_physicsScene->addActor(b2); 
+
+	b1->setColour(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+	b2->setColour(glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
 	return true;
 }
 

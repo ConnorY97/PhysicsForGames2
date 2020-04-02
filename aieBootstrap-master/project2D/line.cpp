@@ -1,4 +1,5 @@
 #include "line.h"
+#include "RigidBody.h"
 
 line::line(const glm::vec2& a_normal /* = { 0.0f, 1.0f }*/,
 			const float a_distance /*= 0.0f*/)  : 
@@ -44,3 +45,19 @@ void line::makeGizmo()
 							centrePoint - (drawDirection * 500.0f), 
 							glm::vec4(1.0f));
 }
+
+void line::resolveCollision(RigidBody* a_actor)
+{
+	glm::vec2 relativeVelocity = a_actor->getVelocity();
+
+	float elasticity = 1.0f;
+
+	float j = glm::dot(-(1 + elasticity) * (relativeVelocity), m_normal)
+		/
+		glm::dot(m_normal, m_normal * (1 / a_actor->getMass()));
+
+	glm::vec2 force = m_normal * j;
+
+	a_actor->applyForce(force);
+}
+

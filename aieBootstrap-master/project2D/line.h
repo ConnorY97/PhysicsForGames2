@@ -1,5 +1,8 @@
 #pragma once
 #include "PhysicsObject.h"
+
+class RigidBody;
+
 class line : public PhysicsObject
 {
 public:
@@ -16,7 +19,7 @@ public:
 	void fixedUpdate(glm::vec2 gravity, float timeStep) override {}
 	void makeGizmo() override; 
 
-
+	void resolveCollision(RigidBody* a_actor); 
 
 private:
 	glm::vec2 m_normal = glm::vec2(0,1);

@@ -78,8 +78,8 @@ void PhysicsScene::update(float a_deltaTime)
 					RigidBody* r1 = dynamic_cast<RigidBody*>(object1); 
 					RigidBody* r2 = dynamic_cast<RigidBody*>(object2); 
 
-					if (r1) r1->setVelocity(glm::vec2(0.0f));
-					if (r2) r2->setVelocity(glm::vec2(0.0f));
+					//if (r1) r1->setVelocity(glm::vec2(0.0f));
+					//if (r2) r2->setVelocity(glm::vec2(0.0f));
 
 					//Resolve collision
 					//Seperate 
@@ -87,15 +87,19 @@ void PhysicsScene::update(float a_deltaTime)
 					{
 						r1->setPosition(r1->getPosition() + 0.5f * result); 
 						r2->setPosition(r2->getPosition() - 0.5f * result); 
+						r1->resolveCollision(r2, result);
 					}
 					else if (r1)
 					{
 						r1->setPosition(r1->getPosition() + result);
-
+						line* l = dynamic_cast<line*>(object2); 
+						l->resolveCollision(r1); 
 					}
 					else if (r2)
 					{
 						r2->setPosition(r2->getPosition() + result);
+						line* l = dynamic_cast<line*>(object1);
+						l->resolveCollision(r2);
 					}
 
 				}
