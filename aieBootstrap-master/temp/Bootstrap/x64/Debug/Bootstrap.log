@@ -1,1 +1,12 @@
-﻿  Bootstrap.vcxproj -> C:\Users\c_you\Documents\AIE\Yr 2\Term 1\PhysicsForGames2\aieBootstrap-master\dependencies\Bootstrap\x64\Debug\Bootstrap.lib
+﻿  imgui.cpp
+  imgui_draw.cpp
+  Application.cpp
+  Font.cpp
+  Gizmos.cpp
+  imgui_glfw3.cpp
+  Input.cpp
+  Renderer2D.cpp
+  Texture.cpp
+  Generating Code...
+  gl_core_4_4.c
+  Bootstrap.vcxproj -> C:\Users\c_you\Documents\AIE\Yr2\Side Project\Asteroids\aieBootstrap-master\dependencies\Bootstrap\x64\Debug\Bootstrap.lib

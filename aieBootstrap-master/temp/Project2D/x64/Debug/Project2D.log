@@ -1,2 +1,13 @@
-﻿  Application2D.cpp
-  Project2D.vcxproj -> C:\Users\c_you\Documents\AIE\Yr 2\Term 1\PhysicsForGames2\aieBootstrap-master\temp\Project2D\x64\Debug\Project2D.exe
+﻿  aligned_bounding_box.cpp
+  Application2D.cpp
+  circle.cpp
+  collision_manager.cpp
+  line.cpp
+  main.cpp
+  PhysicsObject.cpp
+  PhysicsScene.cpp
+C:\Users\c_you\Documents\AIE\Yr2\Side Project\Asteroids\aieBootstrap-master\Project2D\PhysicsScene.cpp(58,34): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  RigidBody.cpp
+  Generating Code...
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+  Project2D.vcxproj -> C:\Users\c_you\Documents\AIE\Yr2\Side Project\Asteroids\aieBootstrap-master\temp\Project2D\x64\Debug\Project2D.exe
